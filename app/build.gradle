@@ -1,17 +1,22 @@
-apply plugin: 'com.android.application'
-
+apply plugin: 'com.android.feature'
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
+// query git for the SHA, Tag and commit count. Use these to automate versioning.
+final def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+final def gitTag = 'git describe --tags'.execute([], project.rootDir).text.trim()
+final
+def gitCommitCount = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
+
 android {
-    compileSdkVersion 26
+    compileSdkVersion versions.compileSdk
     defaultConfig {
         applicationId "io.yenkoapp"
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.versionCode
+        versionName versions.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
